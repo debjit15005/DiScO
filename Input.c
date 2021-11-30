@@ -2,24 +2,49 @@
 #include <stdlib.h>
 #include <string.h>
 
+struct matrix {
+    int** mat;
+    int n;
+};
+
 int main() {
-    FILE *the_file = fopen("SampleInput.csv", "r");
-    if(the_file == NULL) {
-        perror("Unable to open the file.");
-        exit(1);
-    }
 
-    char line[100];
+    FILE* fptr = NULL;
+        fptr = fopen("SampleInput.csv", "r");
 
-    while(fgets(line, sizeof(line), the_file)) {
-        char *token;
-
-        token = strtok(line, ",");
-
-        while(token!= NULL ){
-            printf("%s \n", token);
-            token = strtok(NULL, ",");
+        if(fptr == NULL){
+            printf("Error reading file !!\n");
+            return NULL;
         }
-        printf("\n");
+        else {
+            int n = 0;
+            char ch;
+
+            while((ch = fgetc(fptr)) != '\n'){
+                if(ch == ',')
+                    n++;
+            }
+
+            printf("N = %d \n", n);
+
+           
+
+        struct matrix* input;
+        input->n = n;
+        input->mat = (int*)malloc(n * sizeof(int));
+
+        for(int i = 0; i < n; i++){
+            input->mat[i] = (int*)malloc(n * sizeof(int));
+        }
+            for(int i=0;i<n;i++)
+            {
+                while((ch = fgetc(fptr)) != ',');
+                for(int j=0;j<n;j++)
+                {
+                    input->mat[i][j]=fgetc(fptr)-'0';
+                    fgetc(fptr);
+                }
+            }
+            return input;
     }
 }
